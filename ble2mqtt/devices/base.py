@@ -212,6 +212,7 @@ class Device(BaseDevice, abc.ABC):
         self._manufacturer = self.MANUFACTURER
         self._rssi = None
         self._advertisement_seen = aio.Event()
+        self._prefix = kwargs.pop('prefix', '')    
 
         assert set(self.entities.keys()) <= {
             BUTTON_DOMAIN,
@@ -300,7 +301,7 @@ class Device(BaseDevice, abc.ABC):
 
     @property
     def dev_id(self):
-        return self.mac.replace(':', '').lower()
+        return self._prefix + self.mac.replace(':', '').lower()
 
     @property
     def friendly_id(self):
